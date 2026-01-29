@@ -1,5 +1,6 @@
 from rest_framework import serializers
-from .models import Book
+from .models import *
+from datetime import datetime
 
 class BookSerializer(serializers.Serializer):
     title = serializers.CharField(max_length = 100)
@@ -33,3 +34,39 @@ class BookSerializer(serializers.Serializer):
         instance.save()
 
         return instance
+    
+
+class StudentSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Student
+        fields = '__all__'
+
+    def calculate_age(self, dob):
+        current_date = datetime.now()
+        age = current_date.year - dob.year
+        return age
+    
+    def to_representation(self, instance):
+        data =  super().to_representation(instance)
+        data['age'] = self.calculate_age(instance.dob)
+        return data
+    
+    def to_internal_value(self, data):
+        data = super().to_internal_value(data)
+        data['name'] = data['name'].strip().title()
+        # print(data['name'])
+        return data
+    
+    def create(self, validated_data):
+        student = Student.objects.create(**validated_data)
+        student.student_id = f'STU-{str(student.id).zfill(5)}'
+        student.save()
+        return student
+    
+    def get_fields(self):
+        fields = super().get_fields()
+        authenticated = True
+        if authenticated:
+            fields.pop('email', None)
+        print(fields)
+        return fields
