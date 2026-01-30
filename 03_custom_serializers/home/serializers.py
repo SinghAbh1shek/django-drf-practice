@@ -1,9 +1,15 @@
 from rest_framework import serializers
 from .models import *
 from datetime import datetime
+from rest_framework.validators import UniqueValidator
+from .validators import no_number
 
 class BookSerializer(serializers.Serializer):
-    title = serializers.CharField(max_length = 100)
+    title = serializers.CharField(
+        max_length = 100,
+        validators = [
+            UniqueValidator(queryset=Book.objects.all())
+        ])
     author = serializers.CharField(max_length = 100)
     price = serializers.FloatField()
     tax = 12
@@ -70,3 +76,52 @@ class StudentSerializer(serializers.ModelSerializer):
             fields.pop('email', None)
         print(fields)
         return fields
+
+class AddressValidator(serializers.Serializer):
+    city = serializers.CharField(max_length = 100)
+    postal_code = serializers.CharField(max_length = 10)
+
+    def validate_postal_code(self, value):
+        if not value.isdigit():
+            raise serializers.ValidationError('postal code must contains digit only')
+        return value
+    
+class UserSerializer(serializers.Serializer):
+    name = serializers.CharField(
+        max_length = 100,
+        validators = [no_number]
+        )
+    email = serializers.EmailField()
+    age = serializers.IntegerField()
+    phone = serializers.RegexField(
+        regex=r'^[789]\d{9}$', error_messages = {
+            'invalid': 'phone number must be entered correctly'
+        }
+    )
+    address = AddressValidator()
+    user_type = serializers.ChoiceField(choices=['admin', 'regular'])
+    admin_code = serializers.CharField(required = False)
+
+    # def validate_age(self, value):
+    #     if value < 18 or value > 30:
+    #         raise serializers.ValidationError('Age must be above 18 and below 30')
+    #     return value
+    
+    # def validate_email(self, value):
+    #     if value.split('@')[1] == 'gmail.com':
+    #         raise serializers.ValidationError('email must be bussiness email')
+    #     return value
+    
+    # We can also write all the validatation in single place like this
+    def validate(self, data):
+        if 'age' in data and data['age'] < 18 or data['age'] > 30:
+            raise serializers.ValidationError('Age must be above 18 and below 30')
+
+        if 'email' in data and data['email'].split('@')[1] == 'gmail.com':
+            raise serializers.ValidationError('email must be bussiness email')
+        
+        if data['user_type'] == 'admin' and not data.get('admin_code'):
+            raise serializers.ValidationError('admin code is required')
+
+        return super().validate(data)
+    

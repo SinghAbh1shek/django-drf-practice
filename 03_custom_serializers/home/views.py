@@ -74,3 +74,24 @@ def student(request):
                 'message': f'method {request.method}',
             }
         )
+
+@api_view(['POST'])
+def create_user(request):
+    data = request.data
+    serializer = UserSerializer(data = data)
+    if not serializer.is_valid():
+        return Response(
+            {   
+                'status': False,
+                'message': 'record not created',
+                'students': serializer.errors
+            }
+        )
+    print(serializer.validate)
+    return Response(
+        {   
+            'status': True,
+            'message': 'record created',
+            'students': serializer.data
+        }
+    )
