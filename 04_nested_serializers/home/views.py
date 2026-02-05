@@ -1,7 +1,7 @@
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from .models import Book
-from.serializers import BookSerializer
+from.serializers import *
 
 
 @api_view(['GET'])
@@ -21,5 +21,27 @@ def get_book(request):
             'status': True,
             'message': 'record fetched',
             'books': books.data
+        }
+    )
+
+@api_view(['POST'])
+def create_book(request):
+    data = request.data
+    serializer = BookSerializer(data = data)
+    if not serializer.is_valid():
+        return Response(
+            {
+                'status': False,
+                'message': 'record not created',
+                'errors': serializer.errors
+            }
+        )
+    serializer.save()
+
+    return Response(
+        {
+            'status': True,
+            'message': 'record fetched',
+            'books': serializer.data
         }
     )
