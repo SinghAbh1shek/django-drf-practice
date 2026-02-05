@@ -2,6 +2,20 @@ from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from .models import Book
 from.serializers import *
+from rest_framework.views import APIView
+
+class TestAPI(APIView):
+    def get(self, request):
+        return Response({
+            'status': True,
+            'message': 'This is get method'
+        })
+    
+    def post(self, request):
+        return Response({
+            'status': True,
+            'message': 'This is post method'
+        })
 
 
 @api_view(['GET'])
