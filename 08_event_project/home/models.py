@@ -10,7 +10,7 @@ class Event(models.Model):
     )
     title = models.CharField(max_length=100)
     description = models.TextField()
-    data = models.DateField()
+    date = models.DateField()
     capacity = models.IntegerField()
     ticket_price = models.FloatField(default=100)
     status = models.TextField(max_length=100, choices=STATUS_CHOICES, default='upcoming')
@@ -26,6 +26,8 @@ class Ticket(models.Model):
     event = models.ForeignKey(Event, on_delete=models.CASCADE)
     ticket_type = models.CharField(max_length=100, choices=TICKET_TYPE_CHOICES)
     price = models.FloatField()
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
 
 class Booking(models.Model):
     TICKET_TYPE_CHOICES = (
@@ -37,6 +39,8 @@ class Booking(models.Model):
     status = models.CharField(max_length=100, default='pending')
     ticket_type = models.CharField(max_length=100, choices=TICKET_TYPE_CHOICES)
     total_price = models.FloatField()
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
 
     
 

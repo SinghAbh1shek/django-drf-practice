@@ -7,6 +7,7 @@ from .serializers import *
 from .models import *
 from django.contrib.auth import authenticate
 from rest_framework.authtoken.models import Token
+from .permissions import IsAdmin
 
 class RegisterAPI(APIView):
     def post(self, request):
@@ -61,7 +62,7 @@ class PublicEventViewSet(viewsets.ModelViewSet):
 
 class PrivateEventViewSet(viewsets.ModelViewSet):
     authentication_classes = [TokenAuthentication]
-    permission_classes = [IsAuthenticated]
+    permission_classes = [IsAdmin]
     queryset = Event.objects.all()
     serializer_class = EventSerializer
 
