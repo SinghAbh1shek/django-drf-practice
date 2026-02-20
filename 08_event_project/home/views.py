@@ -93,3 +93,27 @@ class PrivateEventViewSet(viewsets.ModelViewSet):
     queryset = Event.objects.all()
     serializer_class = EventSerializer
 
+class BookingViewSet(viewsets.ModelViewSet):
+    authentication_classes = [TokenAuthentication]
+    permission_classes = [IsAuthenticated]
+    queryset = Booking.objects.all()
+    serializer_class = TicketBookingSerializer
+
+    @action(detail=False, methods=['POST'])
+    def create_booking(self, request):
+        data = request.data
+        serializer = TicketBookingSerializer(data = data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response({
+                'status': True,
+                'message': 'event booked',
+                'data': serializer.data
+            })
+        return Response({
+            'status': False,
+            'message': 'event not booked',
+            'error': serializer.errors
+        })
+
+

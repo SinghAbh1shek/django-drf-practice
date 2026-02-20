@@ -20,3 +20,40 @@ class EventSerializer(serializers.ModelSerializer):
         model = Event
         fields = '__all__'
 
+class BookingSerializer(serializers.ModelSerializer):
+    class Meat:
+        model = Booking
+        fields = '__all__'
+
+class TicketBookingSerializer(serializers.Serializer):
+    event = serializers.IntegerField()
+    ticket_type = models.CharField()
+    total_person = serializers.IntegerField()
+    user = serializers.IntegerField()
+
+    def validate(self, value):
+        if not Event.objects.filter(id = value, status = 'happening').exists():
+            raise serializers.ValidationError('Event does not exist')
+        return value
+
+    def validate_user(self, value):
+        if not User.objects.filter(id = value).exists():
+            raise serializers.ValidationError('user does not exist')
+        return value
+    
+    def create(self, validated_data):
+        event = Event.objects.get(id = validated_data['event'])
+        user = User.objects.get(id = validated_data['user'])
+        ticket = Ticket.objects.create(event = event, **validated_data)
+        total_person = validated_data['total_person']
+
+        total_price = event.ticket_price * total_person
+
+        booking = Booking.objects.create(
+            ticket = ticket,
+            user = user,
+            status = 'paid',
+            total_price = total_price
+        )
+
+        return ticket
