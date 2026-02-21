@@ -20,10 +20,23 @@ class EventSerializer(serializers.ModelSerializer):
         model = Event
         fields = '__all__'
 
+
+class TicketSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Ticket
+        fields = '__all__'
+
 class BookingSerializer(serializers.ModelSerializer):
     class Meta:
         model = Booking
         fields = '__all__'
+
+    def to_representation(self, instance):
+        response = super().to_representation(instance)
+        response['event'] = EventSerializer(instance.ticket.event).data
+        response['ticket'] = TicketSerializer(instance.ticket).data
+        return response
+
 
 class TicketBookingSerializer(serializers.Serializer):
     event = serializers.IntegerField()

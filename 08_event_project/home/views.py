@@ -99,6 +99,17 @@ class BookingViewSet(viewsets.ModelViewSet):
     authentication_classes = [TokenAuthentication]
     permission_classes = [IsAuthenticated]
 
+    @action(detail=False, methods=['GET'])
+    def get_booking(self, request):
+        bookings = Booking.objects.filter(user = request.user)
+        serializer = BookingSerializer(bookings, many = True)
+
+        return Response({
+            'status': True,
+            'message': 'record fetched',
+            'data': serializer.data
+        })
+
     @action(detail=False, methods=['POST'])
     def create_booking(self, request):
         data = request.data
