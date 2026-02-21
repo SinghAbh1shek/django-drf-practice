@@ -94,10 +94,10 @@ class PrivateEventViewSet(viewsets.ModelViewSet):
     serializer_class = EventSerializer
 
 class BookingViewSet(viewsets.ModelViewSet):
+    queryset = Booking.objects.all()
+    serializer_class = BookingSerializer
     authentication_classes = [TokenAuthentication]
     permission_classes = [IsAuthenticated]
-    queryset = Booking.objects.all()
-    serializer_class = TicketBookingSerializer
 
     @action(detail=False, methods=['POST'])
     def create_booking(self, request):
