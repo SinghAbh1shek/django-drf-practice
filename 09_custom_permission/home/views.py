@@ -8,7 +8,7 @@ from rest_framework.authtoken.models import Token
 from .models import Product
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.authentication import TokenAuthentication
-from .permissions import IsProductOwnerPermission
+from .permissions import IsProductOwnerPermission, IsVipUser
 
 @api_view()
 def home(request):
@@ -68,5 +68,5 @@ class loginAPI(APIView):
 class ProductViewSet(viewsets.ModelViewSet):
     queryset = Product.objects.all()
     serializer_class = ProductSerializer
-    permission_classes = [IsProductOwnerPermission, IsAuthenticated]
+    permission_classes = [IsProductOwnerPermission, IsAuthenticated, IsVipUser]
     authentication_classes = [TokenAuthentication]
