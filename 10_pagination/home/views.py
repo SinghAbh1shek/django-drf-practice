@@ -1,0 +1,19 @@
+from django.shortcuts import render
+from .models import Author
+from .serializers import AuthorSerializer
+from rest_framework.views import APIView
+from rest_framework.response import Response
+from utils.paginate import LargeResultPagination, StandardResultPagination
+
+class AuthorAPI(APIView):
+    def get(self, request):
+        authors = Author.objects.all()
+        # paginator = StandardResultPagination()
+        paginator = LargeResultPagination()
+        paginated_result = paginator.paginate_queryset(authors, request)
+        serializer = AuthorSerializer(paginated_result, many=True)
+        return Response({
+            'status': True,
+            'message': 'Data Fetched',
+            'data': paginator.get_paginated_response(serializer.data).data
+        })
