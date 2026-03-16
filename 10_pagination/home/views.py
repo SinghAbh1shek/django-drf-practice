@@ -3,13 +3,14 @@ from .models import Author
 from .serializers import AuthorSerializer
 from rest_framework.views import APIView
 from rest_framework.response import Response
-from utils.paginate import LargeResultPagination, StandardResultPagination
+from utils.paginate import LargeResultPagination, StandardResultPagination, CustomCursorPagination
 
 class AuthorAPI(APIView):
     def get(self, request):
         authors = Author.objects.all()
         # paginator = StandardResultPagination()
-        paginator = LargeResultPagination()
+        # paginator = LargeResultPagination()
+        paginator = CustomCursorPagination()
         paginated_result = paginator.paginate_queryset(authors, request)
         serializer = AuthorSerializer(paginated_result, many=True)
         return Response({
