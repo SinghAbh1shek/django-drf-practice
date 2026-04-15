@@ -48,7 +48,7 @@ class LoginAPI(APIView):
                 'status': False,
                 'message': 'key error',
                 'data': serializer.errors
-            })
+            }, status=400)
 
         except Exception as e:
             print(e)
@@ -56,4 +56,4 @@ class LoginAPI(APIView):
                 'status': False,
                 'message': 'something went wrong',
                 'data': {}
-            })
+            }, status=500)
