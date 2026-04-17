@@ -11,17 +11,18 @@ class RegisterAPI(APIView):
             data = request.data
             serializer = RegisterSerializer(data=data)
             if serializer.is_valid():
-                serializer.save()
+                user = serializer.save()
+                token, _ = Token.objects.get_or_create(user=user)
                 return Response({
                     'status': True,
                     'message': 'account created successfully',
-                    'data': serializer.data
+                    'data': {'token': str(token)}
                 })
             return Response({
                 'status': False,
                 'message': 'key error',
                 'data': serializer.errors
-            })
+            }, status=401)
         except Exception as e:
             print(e)
             return Response({
