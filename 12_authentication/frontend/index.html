@@ -4,9 +4,41 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Home</title>
+    <link rel="stylesheet" href="index.css">
 </head>
 <body>
-    <h1>Index page</h1>
+
+    <nav class="navbar">
+        <h2 class="logo">MyApp</h2>
+        <div class="nav-links">
+            <a href="#">Home</a>
+            <a href="#">Profile</a>
+            <button id="logoutBtn">Logout</button>
+        </div>
+    </nav>
+
+    <section class="hero">
+        <h1>Welcome 👋</h1>
+        <p>You are successfully logged in</p>
+        <button class="btn">Get Started</button>
+    </section>
+
+
+    <section class="cards">
+        <div class="card">
+            <h3>Fast</h3>
+            <p>Lightning fast performance</p>
+        </div>
+        <div class="card">
+            <h3>Secure</h3>
+            <p>Token based authentication</p>
+        </div>
+        <div class="card">
+            <h3>Scalable</h3>
+            <p>Built for real world apps</p>
+        </div>
+    </section>
+
     <script src="script.js"></script>
 </body>
 </html>
