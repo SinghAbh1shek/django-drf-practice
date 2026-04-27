@@ -56,7 +56,7 @@ const RegisterPage = () =>
               <Field>
                 <Button type="submit">Create Account</Button>
                 <FieldDescription className="text-center">
-                  Already have an account? <Link to={'/login'}>Sign in</Link>
+                  Already have an account? <Link to={'/auth/login'}>Sign in</Link>
                 </FieldDescription>
               </Field>
             </FieldGroup>
