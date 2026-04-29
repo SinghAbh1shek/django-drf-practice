@@ -2,9 +2,20 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Field, FieldDescription, FieldGroup, FieldLabel } from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
+import { useRef } from "react";
 import { Link } from "react-router";
 
 const LoginPage = () => {
+  const emailRef = useRef<HTMLInputElement>(null)
+  const passwordRef = useRef<HTMLInputElement>(null)
+
+  const handleLoginSubmit = () => {
+    const email = emailRef.current?.value
+    const password = passwordRef.current?.value
+
+    console.log('data: ', {email, password})
+  }
+
     return (
         <div className="flex justify-center items-center h-screen">
       <Card className="w-full max-w-sm">
@@ -20,6 +31,7 @@ const LoginPage = () => {
               <Field>
                 <FieldLabel htmlFor="email">Email</FieldLabel>
                 <Input
+                  ref={emailRef}
                   id="email"
                   type="email"
                   placeholder="m@example.com"
@@ -36,10 +48,10 @@ const LoginPage = () => {
                     Forgot your password?
                   </a>
                 </div>
-                <Input id="password" type="password" required />
+                <Input ref={passwordRef} id="password" type="password" required />
               </Field>
               <Field>
-                <Button type="submit">Login</Button>
+                <Button type="button" onClick={handleLoginSubmit}>Login</Button>
                 <FieldDescription className="text-center">
                   Don&apos;t have an account? <Link to={'/auth/register'}>Sign up</Link>
                 </FieldDescription>
