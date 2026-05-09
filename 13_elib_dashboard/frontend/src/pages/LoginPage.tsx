@@ -4,6 +4,7 @@ import { Field, FieldDescription, FieldGroup, FieldLabel } from "@/components/ui
 import { Input } from "@/components/ui/input";
 import { login } from "@/http/api";
 import { useMutation } from "@tanstack/react-query";
+import { LoaderCircle } from "lucide-react";
 import { useRef } from "react";
 import { Link, useNavigate } from "react-router";
 
@@ -70,7 +71,10 @@ const LoginPage = () => {
                 <Input ref={passwordRef} id="password" type="password" required />
               </Field>
               <Field>
-                <Button type="button" onClick={handleLoginSubmit}>Login</Button>
+                <Button type="button" onClick={handleLoginSubmit} disabled={mutation.isPending}>
+                  {mutation.isPending && <LoaderCircle className="animate-spin"/>}
+                  <span>Login</span>
+                  </Button>
                 <FieldDescription className="text-center">
                   Don&apos;t have an account? <Link to={'/auth/register'}>Sign up</Link>
                 </FieldDescription>
