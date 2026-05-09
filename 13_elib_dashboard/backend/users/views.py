@@ -29,13 +29,13 @@ class RegisterAPI(APIView):
                 'status': False,
                 'message': 'key error',
                 'data': serialzer.errors
-            })
+            }, status=403)
         except Exception as e:
             return Response({
                 'status': False,
                 'message': 'somethng went wrong',
                 'data': {}
-            })
+            }, status=500)
 
 
 class LoginAPI(APIView):
@@ -59,18 +59,18 @@ class LoginAPI(APIView):
                     'status': False,
                     'message': 'invalid credential',
                     'data': {}
-                })
+                }, status=401)
             return Response({
                 'status': False,
                 'message': 'key error',
                 'data': serialzer.errors
-            })
+            }, status=403)
         except Exception as e:
             return Response({
                 'status': False,
                 'message': 'somethng went wrong',
                 'data': {}
-            })
+            }, status=500)
 
         
             
