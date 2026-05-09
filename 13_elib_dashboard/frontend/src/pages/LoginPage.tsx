@@ -43,6 +43,7 @@ const LoginPage = () => {
           <CardTitle>Login to your account</CardTitle>
           <CardDescription>
             Enter your email below to login to your account
+            {mutation.isError && <div className="text-red-500 text-sm">{mutation.error.message}</div>}
           </CardDescription>
         </CardHeader>
         <CardContent>
