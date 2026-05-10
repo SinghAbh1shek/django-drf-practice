@@ -19,11 +19,14 @@ class RegisterAPI(APIView):
             data = request.data
             serialzer = RegisterSerializer(data=data)
             if serialzer.is_valid():
-                serialzer.save()
+                user = serialzer.save()
+                token, _ = Token.objects.get_or_create(user=user)
                 return Response({
                     'status': True,
                     'message': 'user created',
-                    'data': {}
+                    'data': {
+                        'token': str(token)
+                    }
                 })
             return Response({
                 'status': False,
