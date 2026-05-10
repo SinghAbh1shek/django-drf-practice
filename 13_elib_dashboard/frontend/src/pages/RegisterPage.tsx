@@ -59,7 +59,7 @@ const RegisterPage = () =>
           <CardTitle className="text-xl">Create your account</CardTitle>
           <CardDescription>
             Enter your email below to create your account
-            {mutation.isError && <div className="text-red-500 text-sm">{mutation.error.message}</div>}
+            {mutation.isError && <div className="text-red-500 text-sm">{'something went wrong'}</div>}
           </CardDescription>
         </CardHeader>
         <CardContent>
