@@ -14,6 +14,7 @@ import {
 } from "@/components/ui/field"
 import { Input } from "@/components/ui/input"
 import { register } from "@/http/api"
+import useTokenStore from "@/store"
 import { useMutation } from "@tanstack/react-query"
 import { LoaderCircle } from "lucide-react"
 import { useRef } from "react"
@@ -24,6 +25,7 @@ import { Link, useNavigate } from "react-router"
 const RegisterPage = () => 
   { 
 
+  const setToken = useTokenStore((state) => state.setToken)
   const navigate = useNavigate()
 
   const emailRef = useRef<HTMLInputElement>(null)
@@ -32,9 +34,9 @@ const RegisterPage = () =>
 
   const mutation = useMutation({
     mutationFn: register,
-    onSuccess: () => {
-      console.log('register success')
+    onSuccess: (response) => {
 
+      setToken(response.data.data.token)
       // redirect to dashboard
       navigate('/dashboard/home')
     }
