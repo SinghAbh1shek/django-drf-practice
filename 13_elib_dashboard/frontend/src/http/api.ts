@@ -14,3 +14,5 @@ export const login = async (data: {email: string; password:string;}) => {
 export const register = async (data: {email: string; password:string; full_name:string;}) => {
     return api.post('/api/users/register/', data)
 }
+
+export const getBooks = async() => api.get('api/books/')

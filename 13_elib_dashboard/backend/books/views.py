@@ -9,7 +9,7 @@ class BookApiView(APIView):
             queryset = Book.objects.all()
             serializer = BookSerializer(queryset, many=True)
             return Response({
-                'status': False,
+                'status': True,
                 'message': 'record fetched', 
                 'data': serializer.data
             })
