@@ -12,9 +12,10 @@ import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle }
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuTrigger } from "@/components/ui/dropdown-menu"
 import { Button } from "@/components/ui/button"
-import { LoaderCircle, MoreHorizontal } from "lucide-react"
+import { CirclePlus, LoaderCircle, MoreHorizontal } from "lucide-react"
 import { Badge } from "@/components/ui/badge"
 import type { Book } from "@/types"
+import { Link } from "react-router"
 
 
 function BooksPage() {
@@ -39,18 +40,22 @@ function BooksPage() {
 }
   return (
     <div>
-
-      <Breadcrumb>
-        <BreadcrumbList>
-          <BreadcrumbItem>
-            <BreadcrumbLink href="/dashboard/home">Home</BreadcrumbLink>
-          </BreadcrumbItem>
-          <BreadcrumbSeparator />
-          <BreadcrumbItem>
-            <BreadcrumbPage>Books</BreadcrumbPage>
-          </BreadcrumbItem>
-        </BreadcrumbList>
-      </Breadcrumb>
+      <div className="flex items-center justify-between">
+        <Breadcrumb>
+          <BreadcrumbList>
+            <BreadcrumbItem>
+              <BreadcrumbLink href="/dashboard/home">Home</BreadcrumbLink>
+            </BreadcrumbItem>
+            <BreadcrumbSeparator />
+            <BreadcrumbItem>
+              <BreadcrumbPage>Books</BreadcrumbPage>
+            </BreadcrumbItem>
+          </BreadcrumbList>
+        </Breadcrumb>
+        <Link to={'/dashboard/books/create'}>
+        <Button className="cursor-pointer" ><CirclePlus size={20}/> <span className="ml-2">Add Book</span></Button>
+        </Link>
+      </div>
 
 
        <Card className="mt-6">
